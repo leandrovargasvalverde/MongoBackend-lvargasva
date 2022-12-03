@@ -1,34 +1,103 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MongoBackend.DatabaseHelper;
 using MongoBackend.Models;
+using MongoDB.Bson;
 using System.Diagnostics;
 
 namespace MongoBackend.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private IUserCollection db = new UserCollection();
 
-        public HomeController(ILogger<HomeController> logger)
+
+        [HttpGet]
+        //GET
+        public ActionResult Index()
         {
-            _logger = logger;
+            var user = db.GetAllUsers();
+            return View(user);
+        }
+        public ActionResult Create()
+        {
+            return View();
         }
 
-        public IActionResult Index()
+        [HttpGet("{id1}/edit")]
+        public ActionResult Edit(string id1)
         {
-            DatabaseHelper.Database db = new DatabaseHelper.Database();
+            var user = db.GetUserById(id1);
 
-            db.insertUser(new User()
+            return View(user);
+        }
+        [HttpGet("{id2}/delete")]
+        public ActionResult Delete(string id2)
+        {
+            var user = db.GetUserById2(id2);
+
+            return View(user);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //POST
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
             {
-                name = "Jason Thibodeax",
-                email = "jason.thi@gmail.com",
-                phone = 60002361,
-                address = "Seattle",
-                dateIn = DateTime.Now
-            });
+                var user = new User()
+                {
+                    name = collection["name"],
+                    email = collection["email"],
+                    phone = int.Parse(collection["phone"]),
+                    address = collection["address"],
+                    dateIn = DateTime.Parse(collection["DateIn"])
+                };
+                db.InsertUser(user);
 
-            ViewBag.UserList = db.getUsers();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
-            return View();
+        [HttpPost("{id1}/edit")]
+        public ActionResult Edit(string id1, IFormCollection collection)
+        {
+            try
+            {
+                var user = new User()
+                {
+                    _id = new ObjectId(id1),
+                    name = collection["name"],
+                    email = collection["email"],
+                    phone = int.Parse(collection["phone"]),
+                    address = collection["address"],
+                    dateIn = DateTime.Parse(collection["DateIn"])
+                };
+                db.UpdateUser(user);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        [HttpPost("{id2}/delete")]
+        public ActionResult Delete(string id2, IFormCollection collection)
+        {
+            try
+            {
+                db.DeleteUser(id2);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()
