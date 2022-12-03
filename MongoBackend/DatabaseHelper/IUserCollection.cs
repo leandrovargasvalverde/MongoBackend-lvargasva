@@ -4,7 +4,7 @@ namespace MongoBackend.DatabaseHelper
 {
     public interface IUserCollection
     {
-        void InsertUser(User user);
+        //void InsertUser(User user);
         void UpdateUser(User user);
         void DeleteUser(string user);
         List<User> GetAllUsers();

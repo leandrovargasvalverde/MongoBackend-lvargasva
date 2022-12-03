@@ -34,10 +34,10 @@ namespace MongoBackend.Models
 
             return user;
         }
-        public void InsertUser(User user)
-        {
-            Collection.InsertOneAsync(user);
-        }
+        //public void InsertUser(User user)
+        //{
+        //    Collection.InsertOneAsync(user);
+        //}
         public void UpdateUser(User user)
         {
             var filter = Builders<User>

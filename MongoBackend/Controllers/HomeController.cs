@@ -3,7 +3,6 @@ using MongoBackend.DatabaseHelper;
 using MongoBackend.Models;
 using MongoDB.Bson;
 using System.Diagnostics;
-
 namespace MongoBackend.Controllers
 {
     public class HomeController : Controller
@@ -11,18 +10,18 @@ namespace MongoBackend.Controllers
         private IUserCollection db = new UserCollection();
 
 
-        [HttpGet]
+
         //GET
         public ActionResult Index()
         {
             var user = db.GetAllUsers();
             return View(user);
-        }
+        }  
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
-
         [HttpGet("{id1}/edit")]
         public ActionResult Edit(string id1)
         {
@@ -37,10 +36,9 @@ namespace MongoBackend.Controllers
 
             return View(user);
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         //POST
-        public ActionResult Create(IFormCollection collection)
+
+        /*public ActionResult Create(IFormCollection collection)
         {
             try
             {
@@ -60,9 +58,26 @@ namespace MongoBackend.Controllers
             {
                 return View();
             }
-        }
+        }*/
+        [HttpPost]
+        public IActionResult SaveUser(string txtName,
+                                    string txtLastName,
+                                    string txtPhone,
+                                    string txtEmail,
+                                    string txtAddress)
+        {
+            Database.insertUser(new Models.User()
+            {
+                name = txtName,
+                email = txtEmail,
+                phone = Convert.ToInt32(txtPhone),
+                address = txtAddress,
+                dateIn = DateTime.Now
+            });
 
-        [HttpPost("{id1}/edit")]
+            return RedirectToAction("Index", "Home");
+        }
+            [HttpPost("{id1}/edit")]
         public ActionResult Edit(string id1, IFormCollection collection)
         {
             try
