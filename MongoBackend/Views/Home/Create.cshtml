@@ -1,11 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Create Page";
 }
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
-<div class="text-center">
-    <div class="container">
-        Create user
-        <hr />
+<div class="container">
+    <div class=text-center>
+        <h2>Crear Usuario</h2>
+    </div>
+    <br />
+    <div class=text-start>
         <form asp-action="SaveUser" asp-controller="Home" method="POST">
             <div class="form-floating mb-3">
                 <input name="txtname" type="text" class="form-control" id="txtName" placeholder="name" required>
@@ -16,18 +20,25 @@
                 <label for="txtEmail">Email</label>
             </div>
             <div class="form-floating mb-3">
-                <input name="txtPhone" type="number" class="form-control" id="txtPhone" placeholder="txtPhone" required>
+                <input name="txtPhone" type="tel" class="form-control" id="txtPhone" placeholder="txtPhone" required>
                 <label for="txtPhone">Phone</label>
             </div>
             <div class="form-floating mb-3">
                 <input name="txtAddress" type="text" class="form-control" id="txtAddress" placeholder="txtAddress" required>
                 <label for="txtAddress">Address</label>
             </div>
-            <div class="group">
-                <label for="dateIn" class="label">DateIn</label>
-                <input type="date" name="txtFecha" class="input" required>
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <label for="dateIn" class="label">DateIn</label>
+                    <input type="datetime-local" class="form-control" required />
+                </div>
+                <br />
+
+                <button class="btn btn-success">Guardar Usuario</button> |
+                <a asp-action="Index" class="btn btn-dark">Regresar a la Lista de Usuario</a>
             </div>
-            <button class="btn btn-primary">Save</button>
+
         </form>
     </div>
 </div>
