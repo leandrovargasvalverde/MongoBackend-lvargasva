@@ -9,14 +9,12 @@ namespace MongoBackend.Controllers
     {
         private IUserCollection db = new UserCollection();
 
-
-
         //GET
         public ActionResult Index()
         {
             var user = db.GetAllUsers();
             return View(user);
-        }  
+        }
         [HttpGet]
         public ActionResult Create()
         {
@@ -77,7 +75,7 @@ namespace MongoBackend.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-            [HttpPost("{id1}/edit")]
+        [HttpPost("{id1}/edit")]
         public ActionResult Edit(string id1, IFormCollection collection)
         {
             try
@@ -114,7 +112,6 @@ namespace MongoBackend.Controllers
                 return View();
             }
         }
-
         public IActionResult Privacy()
         {
             return View();

@@ -1,8 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using MongoBackend.Models;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoBackend.Models;
-using System.Text.Json.Nodes;
+using MongoDB.Driver;
 
 namespace MongoBackend.DatabaseHelper
 {
@@ -11,7 +9,6 @@ namespace MongoBackend.DatabaseHelper
         public MongoClient client;
 
         public IMongoDatabase db;
-
         public Database()
         {
             client = new MongoClient("mongodb+srv://root:Admin$1234@cluster0.j5g7fn8.mongodb.net/test");
